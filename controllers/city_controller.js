@@ -57,11 +57,23 @@ let updateAttraction = function (req, res) {
     })
   })
 }
+
 // delete attraction
+let deleteAttraction = function (req, res) {
+  City.findOne({name: req.params.city}, (err, foundCity) => {
+    if (err) console.log(err)
+    foundCity.attractions.id(req.params.id).remove()
+    foundCity.save((err) => {
+      if (err) console.log(err)
+      else res.status(201).json(foundCity)
+    })
+  })
+}
 
 module.exports = {
   getCity: getCity,
   createAttraction: createAttraction,
   getAttraction: getAttraction,
-  updateAttraction: updateAttraction
+  updateAttraction: updateAttraction,
+  deleteAttraction: deleteAttraction
 }
