@@ -4,7 +4,7 @@ const attractionSchema = require('./attraction')
 // creating city schema with attractions embedded
 const citySchema = new mongoose.Schema({
   name: String,
-  attractions: [attractionSchema]
+  attractions: [attractionSchema.schema]
 })
 
 const City = mongoose.model('City', citySchema)

@@ -1,28 +1,50 @@
 var City = require('../models/city')
+var Attraction = require('../models/attraction')
 
 var getCity = function (req, res) {
-  res.status(200).json('hello')
-
-  City.find(function (error, cities) {
-    response.send(cities)
+  City.find({}, (err, foundCity) => {
+    if (err) console.log(err)
+    res.status(200).json(foundCity)
   })
 }
 
 var createAttraction = function (req, res) {
-  var attraction = new Attraction()
+  City.findOne({name: req.params.city}, (err, city) => {
+    if (err) console.log(err)
+    var attraction = new Attraction()
 
-  attraction.name = request.body.name
-  attraction.details = request.body.details
-  attraction.geoCode = {request.body.Longititude, request.body.Lattitude}
-  attraction.phoneNumber = request.body.phoneNumber
-  attraction.img = request.body.img
+    attraction.name = req.body.name
+    attraction.details = req.body.details
+    attraction.geoCode = {
+      Longititude: req.body.Longititude,
+      Lattitude: req.body.Lattitude
+    }
+    attraction.phoneNumber = req.body.phoneNumber
+    attraction.img = req.body.img
+    city.attractions.push(attraction)
 
-  attraction.save(function (error, attraction) {
-    if (error) response.status(422).json({message: 'Could not ceate attraction b/c:' + error})
-    response.send(attractions)
+    city.save((err) => {
+      if (err) console.log(err)
+      res.status(201).json(city)
+    })
+  })
+}
+
+var getAttraction = function (req, res) {
+  City.find({name: req.params.city}, (err, foundCity) => {
+    if (err) console.log(err)
+    res.status(200).json(foundCity)
+  })
+}
+
+var updateAttraction = function (req, res) {
+  City.findOne({name: req.params.city}, (err, city) => {
+
   })
 }
 
 module.exports = {
-  getCity: getCity
+  getCity: getCity,
+  createAttraction: createAttraction,
+  getAttraction: getAttraction
 }
