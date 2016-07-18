@@ -1,19 +1,13 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const uuid = require('uuid')
-const City = require('./city')
-
-const tripSchema = new mongoose.Schema({
-  places: [City.schema],
-  startDate: Date,
-  endDate: Date
-})
+const Trip = require('./trip')
 
 const userSchema = new mongoose.Schema({
   name: {type: String},
   email: {type: String, reuired: true, unique: true},
   password: {type: String, required: true},
-  myTrips: [tripSchema],
+  myTrips: [Trip],
   auth_token: {type: String, unique: true}
 })
 
@@ -39,7 +33,5 @@ userSchema.methods.authenticate = function (password, callback) {
 }
 
 const User = mongoose.model('User', userSchema)
-const Trip = mongoose.model('Trip', tripSchema)
 
 module.exports = User
-module.exports = Trip
