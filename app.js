@@ -4,6 +4,8 @@ const port = process.env.PORT || 3000
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const cityController = require('./controllers/city_controller')
+app.get('/city', cityController.getCity)
 
 mongoose.connect(process.env.MONGODB_URI)
 app.use(bodyParser.json())
