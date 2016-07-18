@@ -12,6 +12,14 @@ describe('GET /', () => {
       .expect(200, done)
   })
 })
+
+// beforeEach(function (done) {
+//     user = {
+//         email: 'test@test.com',
+//         password: 'password',
+//         auth_token: 'password'
+//     }
+//   })
 describe('GET /trips', function () {
   this.timeout(5000)
   it('should return a 200 response', (done) => {
