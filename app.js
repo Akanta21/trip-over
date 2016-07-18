@@ -29,4 +29,12 @@ app.listen(port, () => {
   console.log(`listening on port ${port}`)
 })
 
+const tripController = require('./controllers/trip_controller')
+
+app.get('/trips', userController.userLoggedIn, tripController.getTrip)
+app.get('/trips/:id', userController.userLoggedIn, tripController.showTrip)
+app.post('/trips', userController.userLoggedIn, tripController.createTrip)
+app.delete('/trips/:id', userController.userLoggedIn, tripController.deleteTrip)
+app.put('/trips/:id', userController.userLoggedIn, tripController.updateTrip)
+
 module.exports = app

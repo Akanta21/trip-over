@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   name: {type: String},
   email: {type: String, reuired: true, unique: true},
   password: {type: String, required: true},
-  myTrips: [Trip],
+  myTrips: [Trip.schema],
   auth_token: {type: String, unique: true}
 })
 
