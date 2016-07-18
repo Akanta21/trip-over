@@ -25,7 +25,11 @@ app.listen(port, () => {
 })
 
 const tripController = require('./controllers/trip_controller')
-app.use('/trips', tripController.getTrip)
-app.post('/trips/:id', tripController.createTrip)
+
+app.get('/trips', userController.userLoggedIn, tripController.getTrip)
+app.get('/trips/:id', userController.userLoggedIn, tripController.showTrip)
+app.post('/trips', userController.userLoggedIn, tripController.createTrip)
+app.delete('/trips/:id', userController.userLoggedIn, tripController.deleteTrip)
+app.put('/trips/:id', userController.userLoggedIn, tripController.updateTrip)
 
 module.exports = app
