@@ -16,4 +16,8 @@ app.listen(port, () => {
   console.log(`listening on port ${port}`)
 })
 
+const tripController = require('./controllers/trip_controller')
+app.use('/trips', tripController.getTrip)
+app.post('/trips/:id', tripController.createTrip)
+
 module.exports = app
