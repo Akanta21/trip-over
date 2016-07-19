@@ -32,7 +32,7 @@ let createAttraction = function (req, res) {
 
     city.save((err) => {
       if (err) console.log(err)
-      res.status(201).json(city)
+      res.status(201).json(attraction)
     })
   })
 }

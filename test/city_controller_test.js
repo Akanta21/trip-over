@@ -3,6 +3,11 @@ const supertest = require('supertest')
 const api = supertest('http://localhost:3000')
 const expect = require('chai').expect
 
+const currentUser = {
+  email: 'wayne@gmail.com',
+  auth_token: 'e5d827ca-c4a5-4037-b42b-2b06dfcac9d7'
+}
+
 describe('GET /city', () => {
   it('should return a 200 response', (done) => {
     api.get('/city')
@@ -38,52 +43,131 @@ describe('GET /city/:id/attractions', () => {
   })
 })
 
-// describe('POST /city/:id', () => {
-//   var id
-//   before((done) => {
-//     api.post('/Batu/attractions')
-//       .set('Accept', 'application/json')
-//       .send({
-//         'name': 'Test document',
-//         'details': 'This is a test file',
-//         'longitude': 'long',
-//         'lattitude': 'lat',
-//         'phoneNumber': '123-123-123',
-//         'img': 'placeholder'
-//       }).end((err, res) => {
-//         expect(err).to.be.a('null')
-//         id = res.body._id
-//         done()
-//       })
-//   })
-//   it('should let user create an attraction', (done) => {
-//     api.get('/Batu/attractions/' + id)
-//       .set('Accept', 'application/json')
-//       .end((err, res) => {
-//         expect(err).to.be.a('null')
-//         expect(res.body.name).to.eql('Test Document')
-//         done()
-//       })
-//   })
-//   it('should return a 200 response')
-//   after(function (done) {
-//     this.timeout = 50000
-//     api.delete('/Batu/attractions/' + id)
-//       .set('Accept', 'application/json')
-//       .end((err, res) => {
-//         expect(err).to.be.a('null')
-//         expect(res.body.id).to.be.a('null')
-//         done()
-//       })
-//   })
-// })
+describe('POST /city/:id', function () {
+  var id
+  before((done) => {
+    api.post('/Batu/attractions')
+      .set('Accept', 'application/json')
+      .set('User-Email', currentUser.email)
+      .set('Auth-Token', currentUser.auth_token)
+      .send({
+        'name': 'Test document',
+        'details': 'This is a test file',
+        'longitude': 'long',
+        'lattitude': 'lat',
+        'phoneNumber': '123-123-123',
+        'img': 'placeholder'
+      }).end((err, res) => {
+        expect(err).to.be.a('null')
+        id = res.body._id
+        done()
+      })
+  })
+  it('should let user create an attraction', (done) => {
+    api.get('/Batu/attractions/' + id)
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        expect(err).to.be.a('null')
+        expect(res.body.name).to.eql('Test document')
+        done()
+      })
+  })
+  it('should return a 200 response', (done) => {
+    api.get('/Batu/attractions/' + id)
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        expect(err).to.be.a('null')
+        expect(res.body.name).to.eq('Test document')
+        done()
+      })
+  })
+  after(function (done) {
+    this.timeout = 5000
+    api.delete('/Batu/attractions/' + id)
+      .set('Accept', 'application/json')
+      .set('User-Email', currentUser.email)
+      .set('Auth-Token', currentUser.auth_token)
+      .end((err, res) => {
+        expect(err).to.be.a('null')
+        expect(res.body.id).to.be.undefined
+        done()
+      })
+  })
+})
 
 describe('UPDATE /city/:id/attraction_id', () => {
-  it('should return a 201 response')
-  it('should let user update an attraction')
+  before((done) => {
+    api.put('/Batu/attractions/578c8676f26423180d4a0e24')
+    .set('Accept', 'application/json')
+    .set('User-Email', currentUser.email)
+    .set('Auth-Token', currentUser.auth_token)
+    .send({
+      'name': 'Updated test',
+      'details': 'For testing update function'
+    }).end((err) => {
+      expect(err).to.be.a('null')
+      done()
+    })
+  })
+  it('should let user update an attraction', (done) => {
+    api.get('/Batu/attractions/578c8676f26423180d4a0e24')
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        expect(err).to.be.a('null')
+        expect(res.body.name).to.eq('Updated test')
+        expect(res.body.details).to.eq('For testing update function')
+        done()
+      })
+  })
+  after((done) => {
+    api.put('/Batu/attractions/578c8676f26423180d4a0e24')
+    .set('Accept', 'application/json')
+    .set('User-Email', currentUser.email)
+    .set('Auth-Token', currentUser.auth_token)
+    .send({
+      'name': 'Test document',
+      'details': 'Original Document'
+    }).end((err) => {
+      expect(err).to.be.a('null')
+      done()
+    })
+  })
 })
 
 describe('DELETE /city/:id/attraction_id', () => {
-  it('should return a 201 response')
-  it('should let user destroy an attraction')
+  var id
+  before((done) => {
+    api.post('/Batu/attractions')
+      .set('Accept', 'application/json')
+      .set('User-Email', currentUser.email)
+      .set('Auth-Token', currentUser.auth_token)
+      .send({
+        'name': 'Delete',
+        'details': 'Test file to be deleted',
+        'longitude': 'long',
+        'lattitude': 'lat',
+        'phoneNumber': '123-123-123',
+        'img': 'placeholder'
+      }).end((err, res) => {
+        expect(err).to.be.a('null')
+        id = res.body_id
+        done()
+      })
+  })
+  it('should let user destroy an attraction', (done) => {
+    api.delete('/Batu/attractions/' + id)
+      .set('Accept', 'application/json')
+      .set('User-Email', currentUser.email)
+      .set('Auth-Token', currentUser.auth_token)
+    done()
+  })
+  it('should be deleted', (done) => {
+    api.get('/Batu/attractions/' + id)
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        expect(err).to.be.a('null')
+        expect(res.body).to.be.a('null')
+        done()
+      })
+  })
 })
