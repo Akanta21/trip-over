@@ -7,6 +7,12 @@ const mongoose = require('mongoose')
 const userController = require('./controllers/user_controller')
 const cityController = require('./controllers/city_controller')
 
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  next()
+})
+
 mongoose.connect(process.env.MONGODB_URI)
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
