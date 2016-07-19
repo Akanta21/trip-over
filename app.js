@@ -18,7 +18,7 @@ app.use(morgan('dev'))
 app.post('/signup', userController.signUp)
 app.post('/signin', userController.signIn)
 
-routes for city
+// routes for city
 app.get('/city', cityController.getCity)
 app.get('/:city/attractions', cityController.getAttraction)
 app.post('/:city/attractions', cityController.createAttraction)
