@@ -4,8 +4,8 @@ const port = process.env.PORT || 3000
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-const User = require('./models/user')
 const userController = require('./controllers/user_controller')
+const cityController = require('./controllers/city_controller')
 
 mongoose.connect(process.env.MONGODB_URI)
 app.use(bodyParser.json())
@@ -14,11 +14,16 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(morgan('dev'))
 
-// sign up route
+// User routes
 app.post('/signup', userController.signUp)
-
-// sign in route
 app.post('/signin', userController.signIn)
+
+routes for city
+app.get('/city', cityController.getCity)
+app.get('/:city/attractions', cityController.getAttraction)
+app.post('/:city/attractions', cityController.createAttraction)
+app.put('/:city/attractions/:id', cityController.updateAttraction)
+app.delete('/:city/attractions/:id', cityController.deleteAttraction)
 
 app.listen(port, () => {
   console.log(`listening on port ${port}`)
