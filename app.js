@@ -20,6 +20,9 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(morgan('dev'))
 
+app.get('/', (req, res) => {
+  res.status(200).send('This is our API for trip-over!')
+})
 // User routes
 app.post('/signup', userController.signUp)
 app.post('/signin', userController.signIn)
