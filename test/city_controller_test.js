@@ -1,4 +1,4 @@
-/* globals it describe */
+/* globals it describe before */
 const supertest = require('supertest')
 const api = supertest('http://localhost:3000')
 const expect = require('chai').expect
@@ -38,7 +38,21 @@ describe('GET /city/:id/attractions', () => {
   })
 })
 
-describe('POST /city/:id/new', function () {
+describe('POST /city/:id', function () {
+  before((done) => {
+    api.post('/Batu/578c720980ba419129aa743a')
+      .set('Accept', 'application/json')
+      .send({
+        'name': 'Test document',
+        'details': 'This is a test file',
+        'longitude': 'long',
+        'lattitude': 'lat',
+        'phoneNumber': '123-123-123',
+        'img': 'placeholder'
+      }).end((err, res) => {
+        expect(err).to.be.a('null')
+      })
+  })
   it('should return a 201 response')
   it('should let user create an attraction')
 })
