@@ -21,9 +21,10 @@ app.post('/signin', userController.signIn)
 // routes for city
 app.get('/city', cityController.getCity)
 app.get('/:city/attractions', cityController.getAttraction)
-app.post('/:city/attractions', cityController.createAttraction)
-app.put('/:city/attractions/:id', cityController.updateAttraction)
-app.delete('/:city/attractions/:id', cityController.deleteAttraction)
+app.get('/:city/attractions/:id', cityController.showAttraction)
+app.post('/:city/attractions', userController.userLoggedIn, cityController.createAttraction)
+app.put('/:city/attractions/:id', userController.userLoggedIn, cityController.updateAttraction)
+app.delete('/:city/attractions/:id', userController.userLoggedIn, cityController.deleteAttraction)
 
 app.listen(port, () => {
   console.log(`listening on port ${port}`)
