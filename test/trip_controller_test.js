@@ -30,6 +30,7 @@ describe('GET /trips', function () {
     })
   })
 })
+
 describe('SHOW /trips/:id', () => {
   it('should return a 200 response', (done) => {
     api.get('/trips/578ca2051716e55a0faccd7d')
@@ -43,6 +44,7 @@ describe('SHOW /trips/:id', () => {
       })
   })
 })
+
 describe('POST /trips', () => {
   var id
   var array = [{
@@ -92,20 +94,58 @@ describe('POST /trips', () => {
     })
   })
 })
-  // describe('POST /trips', function () {
-  //   this.timeout(5000)
-  //   it('should add new trip to database', (done) => {
-  //     api.get('/trips')
-  //        .set('Accept', 'application/json')
-  //        .set('User-Email', currentUser.email)
-  //        .set('Auth-Token', currentUser.auth_token)
-  //        .end((error, response) => {
-  //          expect(error).to.be.a('null')
-  //          expect(response.body[response.body.length - 1].startDate).to.equal('2016-05-24T16:00:00.000Z')
-  //          done()
-  //        })
-  //   })
-  // })
+
+describe('PUT /trips/:id/', () => {
+  var id
+  var array = [{
+    'name': 'Test object',
+    'details': 'more test objects'
+  },
+    {
+      'name': 'Test object2',
+      'details': 'more test objects too'
+    }]
+  before((done) => {
+    api.put('/trips/578eeec28a3b352919f2d3d4')
+    .set('Accept', 'application/json')
+    .set('User-Email', currentUser.email)
+    .set('Auth-Token', currentUser.auth_token)
+    .send({
+      'places': array,
+      'startDate': 'This is the start',
+      'endDate': 'This is the end'
+    }).end((err, res) => {
+      expect(err).to.be.a('null')
+      id = res.body._id
+      done()
+    })
+  })
+  it('should update trip', (done) => {
+    api.get('/trips/578eeec28a3b352919f2d3d4')
+    .set('Accept', 'application/json')
+    .set('User-Email', currentUser.email)
+    .set('Auth-Token', currentUser.auth_token)
+    .end((err, res) => {
+      expect(err).to.be.a('null')
+      expect(res.body.startDate).to.eq('This is the start')
+      expect(res.body.endDate).to.eq('This is the end')
+      done()
+    })
+  })
+  after((done) => {
+    api.put('/trips/578eeec28a3b352919f2d3d4')
+    .set('Accept', 'application/json')
+    .set('User-Email', currentUser.email)
+    .set('Auth-Token', currentUser.auth_token)
+    .send({
+      startDate: 'Update was started',
+      endDate: 'And update has ended'
+    }).end((err) => {
+      expect(err).to.be.a('null')
+      done()
+    })
+  })
+})
   // describe('PUT /trips/:id/', () => {
   //   it('should update trip', (done) => {
   //     api.get('/trips/1')

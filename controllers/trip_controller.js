@@ -20,15 +20,15 @@ var createTrip = function (req, res) {
   req.currentUser.myTrips.push(userTrip)
   req.currentUser.save(function (error, user) {
     if (error)res.status(422).json({message: 'Could not create trip.'})
-    else res.send(user)
+    else res.status(201).json(user)
   })
 }
 // delete trip
 var deleteTrip = function (req, res) {
   req.currentUser.myTrips.id(req.params.id).remove()
-  req.currentUser.save(function (error, userTrip) {
+  req.currentUser.save(function (error, user) {
     if (error)res.status(422).json({message: 'Could not delete trip.'})
-    else res.json({message: 'Trip deleted.'})
+    else res.status(201).json(req.currentUser.myTrips)
   })
 }
 // update trip
@@ -38,9 +38,9 @@ var updateTrip = function (req, res) {
   if (req.body.places) currentTrip.places = req.body.places
   if (req.body.startDate) currentTrip.startDate = req.body.startDate
   if (req.body.endDate) currentTrip.endDate = req.body.endDate
-  req.currentUser.save(function (error, userTrip) {
+  req.currentUser.save(function (error, user) {
     if (error)res.status(422).json({message: 'Could not update trip.'})
-    else res.json({message: 'Trip updated'})
+    else res.status(201).json(req.currentUser.myTrips)
   })
 }
 
