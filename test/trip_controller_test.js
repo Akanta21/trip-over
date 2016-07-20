@@ -2,7 +2,7 @@
 const expect = require('chai').expect
 const supertest = require('supertest')
 const api = supertest('http://localhost:3000')
-// require('../app')
+require('../app')
 
 const currentUser = {
   email: 'wayne@gmail.com',
@@ -96,7 +96,6 @@ describe('POST /trips', () => {
 })
 
 describe('PUT /trips/:id/', () => {
-  var id
   var array = [{
     'name': 'Test object',
     'details': 'more test objects'
@@ -116,7 +115,6 @@ describe('PUT /trips/:id/', () => {
       'endDate': 'This is the end'
     }).end((err, res) => {
       expect(err).to.be.a('null')
-      id = res.body._id
       done()
     })
   })
@@ -146,18 +144,55 @@ describe('PUT /trips/:id/', () => {
     })
   })
 })
-  // describe('PUT /trips/:id/', () => {
-  //   it('should update trip', (done) => {
-  //     api.get('/trips/1')
-  //     .set('Accept', 'application/json')
-  //     .set('User-Email', currentUser.email)
-  //     .set('Auth-Token', currentUser.auth_token)
-  //     .end((err, response) => {
-  //       expect(response.body.trip[0].startDate.to.equal('26 May 2016'), done)
-  //      })
-  //    })
-  // })
-  //
+
+describe('DELETE /trips/:id', () => {
+  var id
+  var array = [{
+    'name': 'To be deleted',
+    'details': 'more test objects'
+  },
+    {
+      'name': 'Must be deleted',
+      'details': 'more test objects too'
+    }]
+  before((done) => {
+    api.post('/trips')
+    .set('Accept', 'application/json')
+    .set('User-Email', currentUser.email)
+    .set('Auth-Token', currentUser.auth_token)
+    .send({
+      'places': array,
+      'startDate': '19/09/1990',
+      'endDate': '21/09/1990'
+    })
+    .end((err, res) => {
+      expect(err).to.be.a('null')
+      id = res.body.myTrips[res.body.myTrips.length - 1]._id
+      done()
+    })
+  })
+  it('should delete a trip from database', (done) => {
+    api.delete('/trips/' + id)
+    .set('Accept', 'application/json')
+    .set('User-Email', currentUser.email)
+    .set('Auth-Token', currentUser.auth_token)
+    .end((err) => {
+      expect(err).to.be.a('null')
+      done()
+    })
+  })
+  it('should not be in database', (done) => {
+    api.get('/trips/' + id)
+    .set('Accept', 'application/json')
+    .set('User-Email', currentUser.email)
+    .set('Auth-Token', currentUser.auth_token)
+    .end((err, res) => {
+      expect(err).to.be.null
+      expect(res.body).to.be.null
+      done()
+    })
+  })
+})
   // describe('DELETE /trips/:id', () => {
   //   it('should delete a trip from database', (done) => {
   //     api.delete('/trips/1')

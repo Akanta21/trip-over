@@ -1,5 +1,4 @@
 const Trip = require('../models/trip')
-const User = require('../models/user')
 
 // get all trips of user
 var getTrip = function (req, res) {
