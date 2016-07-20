@@ -4,7 +4,7 @@ const uniqueValidator = require('mongoose-unique-validator')
 
 // creating city schema with attractions embedded
 const citySchema = new mongoose.Schema({
-  name: {type: String, required: true, unique: true},
+  name: {type: String, required: true, unique: true, uniqueCaseInsensitive: true},
   attractions: [attractionSchema.schema]
 })
 
