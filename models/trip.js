@@ -1,8 +1,7 @@
 const mongoose = require('mongoose')
-const City = require('./city')
 
 const tripSchema = new mongoose.Schema({
-  places: [City.schema],
+  places: [],
   startDate: Date,
   endDate: Date
 })
