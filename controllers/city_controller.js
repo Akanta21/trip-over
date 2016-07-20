@@ -8,6 +8,15 @@ let getCity = function (req, res) {
   })
 }
 
+let createCity = function (req, res) {
+  var city = new City()
+  city.name = req.body.name
+  city.save((err) => {
+    if (err) console.log(err)
+    else res.status(201).json(city)
+  })
+}
+
 let showAttraction = function (req, res) {
   City.findOne({name: req.params.city}, (err, city) => {
     if (err) console.log(err)
@@ -79,6 +88,7 @@ let deleteAttraction = function (req, res) {
 
 module.exports = {
   getCity: getCity,
+  createCity: createCity,
   createAttraction: createAttraction,
   showAttraction: showAttraction,
   getAttraction: getAttraction,
