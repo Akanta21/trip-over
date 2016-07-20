@@ -5,8 +5,8 @@ const attractionSchema = new mongoose.Schema({
   name: {type: String, required: true},
   details: {type: String, required: true},
   geoCode: {
-    longitude: String,
-    lattitude: String
+    longitude: {type: String, required: true},
+    lattitude: {type: String, required: true}
   },
   phoneNumber: String,
   img: String

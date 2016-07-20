@@ -13,6 +13,12 @@ function userLoggedIn (req, res, next) {
   })
 }
 
+function isAdmin (req, res, next) {
+  const userEmail = req.get('User-Email')
+  if (userEmail !== 'admin@gmail.com') return res.status(401).json({error: 'unauthorised access'})
+  next()
+}
+
 var signIn = (req, res) => {
   const userParams = req.body.user
 
@@ -38,5 +44,6 @@ var signUp = (req, res) => {
 module.exports = {
   userLoggedIn: userLoggedIn,
   signIn: signIn,
-  signUp: signUp
+  signUp: signUp,
+  isAdmin: isAdmin
 }
