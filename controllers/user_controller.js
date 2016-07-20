@@ -29,7 +29,6 @@ var signIn = (req, res) => {
 
 var signUp = (req, res) => {
   const user = new User(req.body.user)
-
   user.save((err, user) => {
     if (err) return res.status(401).json({error: err})
     else res.status(201).json(user)
