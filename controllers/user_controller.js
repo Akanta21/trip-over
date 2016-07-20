@@ -6,7 +6,7 @@ function userLoggedIn (req, res, next) {
   if (!userEmail || !authToken) return res.status(401).json({error: 'unauthorised access'})
 
   User.findOne({email: userEmail, auth_token: authToken}, (err, user) => {
-    if (err || !user) return res.status(401).json({error: unauthorised})
+    if (err || !user) return res.status(401).json({error: 'unauthorised'})
 
     req.currentUser = user
     next()
@@ -22,7 +22,7 @@ var signIn = (req, res) => {
     user.authenticate(userParams.password, (err, isMatch) => {
       if (err || !isMatch) return res.status(401).json({error: 'email or password is invalid'})
 
-      res.status(201).json({message: 'user logged in', auth_token: user.auth_token})
+      else res.status(201).json({message: 'user logged in', auth_token: user.auth_token})
     })
   })
 }
@@ -32,7 +32,7 @@ var signUp = (req, res) => {
 
   user.save((err, user) => {
     if (err) return res.status(401).json({error: err})
-    res.status(201).json({message: 'user created'})
+    else res.status(201).json(user)
   })
 }
 

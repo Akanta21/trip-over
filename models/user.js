@@ -5,8 +5,8 @@ const Trip = require('./trip')
 
 const userSchema = new mongoose.Schema({
   name: {type: String},
-  email: {type: String, reuired: true, unique: true},
-  password: {type: String, required: true},
+  email: {type: String},
+  password: String,
   myTrips: [Trip.schema],
   auth_token: {type: String, unique: true}
 })
