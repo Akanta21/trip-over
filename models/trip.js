@@ -2,8 +2,8 @@ const mongoose = require('mongoose')
 
 const tripSchema = new mongoose.Schema({
   places: [],
-  startDate: Date,
-  endDate: Date
+  startDate: String,
+  endDate: String
 })
 
 const Trip = mongoose.model('Trip', tripSchema)
