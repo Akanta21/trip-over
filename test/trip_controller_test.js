@@ -1,4 +1,4 @@
-/* globals describe it before */
+/* globals describe it before after */
 const expect = require('chai').expect
 const supertest = require('supertest')
 const api = supertest('http://localhost:3000')
@@ -65,13 +65,32 @@ describe('POST /trips', () => {
     })
     .end((err, res) => {
       expect(err).to.be.a('null')
-      id = res.body._id
-      console.log(id)
-      console.log(res.body)
+      id = res.body.myTrips[res.body.myTrips.length - 1]._id
       done()
     })
   })
-  it('should add new trip to database')
+  it('should add new trip to database', (done) => {
+    api.get('/trips/' + id)
+    .set('Accept', 'application/json')
+    .set('User-Email', currentUser.email)
+    .set('Auth-Token', currentUser.auth_token)
+    .end((err, res) => {
+      expect(err).to.be.a('null')
+      expect(res.body).to.have.property('startDate')
+      expect(res.body).to.have.property('endDate')
+      done()
+    })
+  })
+  after((done) => {
+    api.delete('/trips/' + id)
+    .set('Accept', 'application/json')
+    .set('User-Email', currentUser.email)
+    .set('Auth-Token', currentUser.auth_token)
+    .end((err) => {
+      expect(err).to.be.a('null')
+      done()
+    })
+  })
 })
   // describe('POST /trips', function () {
   //   this.timeout(5000)

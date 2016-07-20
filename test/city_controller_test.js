@@ -87,9 +87,8 @@ describe('POST /city/:id', function () {
       .set('Accept', 'application/json')
       .set('User-Email', currentUser.email)
       .set('Auth-Token', currentUser.auth_token)
-      .end((err, res) => {
+      .end((err) => {
         expect(err).to.be.a('null')
-        expect(res.body.id).to.be.undefined
         done()
       })
   })

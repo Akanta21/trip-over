@@ -18,9 +18,9 @@ var createTrip = function (req, res) {
   userTrip.endDate = req.body.endDate
 
   req.currentUser.myTrips.push(userTrip)
-  req.currentUser.save(function (error, userTrip) {
+  req.currentUser.save(function (error, user) {
     if (error)res.status(422).json({message: 'Could not create trip.'})
-    else res.send(userTrip)
+    else res.send(user)
   })
 }
 // delete trip
