@@ -7,7 +7,7 @@ const uniqueValidator = require('mongoose-unique-validator')
 const userSchema = new mongoose.Schema({
   name: {type: String},
   email: {type: String, required: true, unique: true, uniqueCaseInsensitive: true, match: /\S+@\S+\.\S+/},
-  password: String,
+  password: {type: String, minlength: 6},
   myTrips: [Trip.schema],
   auth_token: {type: String, unique: true}
 })

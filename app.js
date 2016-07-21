@@ -23,7 +23,35 @@ app.use(bodyParser.urlencoded({
 app.use(morgan('dev'))
 
 app.get('/', (req, res) => {
-  res.status(200).send('This is our API for trip-over!')
+  res.status(200).json({
+    message: 'Welcome to our Trip-Over API',
+    'IMPORTANT': 'Note that our API, for login areas, verifies through the User-Email and a Auth-Token generated upon signup. To receive more information, please contact us.',
+    'User Routes': {
+      'POST /signup': 'For user signup',
+      'POST /signin': 'For user login',
+      'PUT /profile': 'Edit user profile'
+    },
+    'City & Attraction Routes': {
+      'GET /city': 'Get all cities',
+      'GET /:city/attractions': 'Get specific city with all her attractions',
+      'GET /:city/attractions/:id': 'Get specific city with a specific attraction',
+      'When logged in': {
+        'Admin ONLY': {
+          'POST /city': 'Create new city',
+          'POST /:city/attractions': 'Create new attractions in existing cities',
+          'PUT /:city/attractions/:id': 'Edit selected attraction in the city',
+          'DELETE /:city/attractions/:id': 'Delete selected attraction in the city'
+        }
+      }
+    },
+    'Trip Routes (Needs user to be logged in)': {
+      'GET /trips': 'Get all trips belonging to a user',
+      'GET /trips/:id': 'Get a single trip belonging to a user',
+      'POST /trips': 'Create a new trip',
+      'PUT /trips/:id': 'Edit a current trip',
+      'DELETE /trips/:id': 'Delete a current trip'
+    }
+  })
 })
 // User routes
 app.post('/signup', userController.signUp)
@@ -39,15 +67,15 @@ app.post('/:city/attractions', userController.userLoggedIn, userController.isAdm
 app.put('/:city/attractions/:id', userController.userLoggedIn, userController.isAdmin, cityController.updateAttraction)
 app.delete('/:city/attractions/:id', userController.userLoggedIn, userController.isAdmin, cityController.deleteAttraction)
 
-app.listen(port, () => {
-  console.log(`listening on port ${port}`)
-})
-
 // routes for trips
 app.get('/trips', userController.userLoggedIn, tripController.getTrip)
 app.get('/trips/:id', userController.userLoggedIn, tripController.showTrip)
 app.post('/trips', userController.userLoggedIn, tripController.createTrip)
-app.delete('/trips/:id', userController.userLoggedIn, tripController.deleteTrip)
 app.put('/trips/:id', userController.userLoggedIn, tripController.updateTrip)
+app.delete('/trips/:id', userController.userLoggedIn, tripController.deleteTrip)
+
+app.listen(port, () => {
+  console.log(`listening on port ${port}`)
+})
 
 module.exports = app
