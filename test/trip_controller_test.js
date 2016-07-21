@@ -5,8 +5,8 @@ const api = supertest('http://localhost:3000')
 require('../app')
 
 const currentUser = {
-  email: 'wayne@gmail.com',
-  auth_token: 'e5d827ca-c4a5-4037-b42b-2b06dfcac9d7'
+  email: 'admin@gmail.com',
+  auth_token: 'd4113582-3868-46a1-9aef-dd930faadb15'
 }
 
 describe('GET /trips', function () {
