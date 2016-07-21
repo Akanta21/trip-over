@@ -3,7 +3,7 @@ const Attraction = require('../models/attraction')
 
 let getCity = function (req, res) {
   City.find({}, (err, foundCity) => {
-    if (err) console.log(err)
+    if (err) return res.status(401).json({error: err})
     res.status(200).json(foundCity)
   })
 }
@@ -12,21 +12,21 @@ let createCity = function (req, res) {
   var city = new City()
   city.name = req.body.name
   city.save((err) => {
-    if (err) console.log(err)
+    if (err) return res.status(401).json({error: err})
     else res.status(201).json(city)
   })
 }
 
 let showAttraction = function (req, res) {
   City.findOne({name: req.params.city}, (err, city) => {
-    if (err) console.log(err)
+    if (err) return res.status(401).json({error: err})
     res.status(200).json(city.attractions.id(req.params.id))
   })
 }
 
 let createAttraction = function (req, res) {
   City.findOne({name: req.params.city}, (err, city) => {
-    if (err) console.log(err)
+    if (err) return res.status(401).json({error: err})
     var attraction = new Attraction()
 
     attraction.name = req.body.name
@@ -40,7 +40,7 @@ let createAttraction = function (req, res) {
     city.attractions.push(attraction)
 
     city.save((err) => {
-      if (err) console.log(err)
+      if (err) return res.status(401).json({error: err})
       res.status(201).json(attraction)
     })
   })
@@ -48,7 +48,7 @@ let createAttraction = function (req, res) {
 
 let getAttraction = function (req, res) {
   City.find({name: req.params.city}, (err, foundCity) => {
-    if (err) console.log(err)
+    if (err) return res.status(401).json({error: err})
     res.status(200).json(foundCity)
   })
 }
@@ -56,7 +56,7 @@ let getAttraction = function (req, res) {
 // update attraction
 let updateAttraction = function (req, res) {
   City.findOne({name: req.params.city}, (err, foundCity) => {
-    if (err) console.log(err)
+    if (err) return res.status(401).json({error: err})
     var updateAttraction = foundCity.attractions.id(req.params.id)
     updateAttraction.name = req.body.name
     updateAttraction.details = req.body.details
@@ -68,7 +68,7 @@ let updateAttraction = function (req, res) {
     updateAttraction.img = req.body.img
 
     foundCity.save((err) => {
-      if (err) console.log(err)
+      if (err) return res.status(401).json({error: err})
       else res.status(201).json(foundCity)
     })
   })
@@ -77,7 +77,7 @@ let updateAttraction = function (req, res) {
 // delete attraction
 let deleteAttraction = function (req, res) {
   City.findOne({name: req.params.city}, (err, foundCity) => {
-    if (err) console.log(err)
+    if (err) return res.status(401).json({error: err})
     foundCity.attractions.id(req.params.id).remove()
     foundCity.save((err) => {
       if (err) console.log(err)

@@ -74,3 +74,14 @@ describe('Invalid inputs for', () => {
     })
   })
 })
+
+describe('Invalid inputs for', () => {
+  context('PUT /profile', () => {
+    it('should not allow put with wrong authentication')
+    it('should not allow put for empty name')
+    it('should not allow put for empty email')
+    it('should not allow put for invalid email')
+    it('should not allow put with empty password')
+    it('should not allow put with invalid password')
+  })
+})

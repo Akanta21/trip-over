@@ -2,7 +2,7 @@
 const supertest = require('supertest')
 const api = supertest('http://localhost:3000')
 const expect = require('chai').expect
-// require('../app')
+require('../app')
 
 const currentUser = {
   email: 'admin@gmail.com',
