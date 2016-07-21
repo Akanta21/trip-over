@@ -21,7 +21,6 @@ function isAdmin (req, res, next) {
 
 var signIn = (req, res) => {
   const userParams = req.body.user
-
   User.findOne({email: userParams.email}, (err, user) => {
     if (err || !user) return res.status(401).json({error: err.message})
 
