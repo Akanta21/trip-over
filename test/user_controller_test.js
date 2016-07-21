@@ -16,7 +16,7 @@ describe('Sessions', () => {
         user: {
           name: 'user',
           email: 'user@email.com',
-          password: '1234'
+          password: '123456'
         }
       }).end((err, res) => {
         expect(err).to.be.null
@@ -33,7 +33,7 @@ describe('Sessions', () => {
             user: {
               name: 'user',
               email: 'user@email.com',
-              password: '1234'
+              password: '123456'
             }
           }).end((err, res) => {
             expect(err).to.be.null
