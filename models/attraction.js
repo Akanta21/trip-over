@@ -2,11 +2,11 @@ const mongoose = require('mongoose')
 
 // creating attraction schema
 const attractionSchema = new mongoose.Schema({
-  name: String,
-  details: String,
+  name: {type: String, required: true},
+  details: {type: String, required: true},
   geoCode: {
-    longitude: String,
-    lattitude: String
+    longitude: {type: String, required: true},
+    lattitude: {type: String, required: true}
   },
   phoneNumber: String,
   img: String

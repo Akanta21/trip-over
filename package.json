@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://github.com/fay2wk/trip-over/issues"
   },
-  "engines":{
+  "engines": {
     "node": "6.2.1"
   },
   "homepage": "https://github.com/fay2wk/trip-over#readme",
@@ -25,6 +25,7 @@
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "mongoose": "^4.5.4",
+    "mongoose-unique-validator": "^1.0.2",
     "morgan": "^1.7.0",
     "uuid": "^2.0.2"
   },

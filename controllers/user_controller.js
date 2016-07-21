@@ -6,11 +6,17 @@ function userLoggedIn (req, res, next) {
   if (!userEmail || !authToken) return res.status(401).json({error: 'unauthorised access'})
 
   User.findOne({email: userEmail, auth_token: authToken}, (err, user) => {
-    if (err || !user) return res.status(401).json({error: unauthorised})
+    if (err || !user) return res.status(401).json({error: 'unauthorised'})
 
     req.currentUser = user
     next()
   })
+}
+
+function isAdmin (req, res, next) {
+  const userEmail = req.get('User-Email')
+  if (userEmail !== 'admin@gmail.com') return res.status(401).json({error: 'unauthorised access'})
+  next()
 }
 
 var signIn = (req, res) => {
@@ -22,22 +28,22 @@ var signIn = (req, res) => {
     user.authenticate(userParams.password, (err, isMatch) => {
       if (err || !isMatch) return res.status(401).json({error: 'email or password is invalid'})
 
-      res.status(201).json({message: 'user logged in', auth_token: user.auth_token})
+      else res.status(201).json({message: 'user logged in', auth_token: user.auth_token})
     })
   })
 }
 
 var signUp = (req, res) => {
   const user = new User(req.body.user)
-
   user.save((err, user) => {
     if (err) return res.status(401).json({error: err})
-    res.status(201).json({message: 'user created'})
+    else res.status(201).json(user)
   })
 }
 
 module.exports = {
   userLoggedIn: userLoggedIn,
   signIn: signIn,
-  signUp: signUp
+  signUp: signUp,
+  isAdmin: isAdmin
 }

@@ -2,11 +2,12 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const uuid = require('uuid')
 const Trip = require('./trip')
+const uniqueValidator = require('mongoose-unique-validator')
 
 const userSchema = new mongoose.Schema({
   name: {type: String},
-  email: {type: String, reuired: true, unique: true},
-  password: {type: String, required: true},
+  email: {type: String, required: true, unique: true, uniqueCaseInsensitive: true, match: /\S+@\S+\.\S+/},
+  password: String,
   myTrips: [Trip.schema],
   auth_token: {type: String, unique: true}
 })
@@ -32,6 +33,7 @@ userSchema.methods.authenticate = function (password, callback) {
   bcrypt.compare(password, this.password, callback)
 }
 
+userSchema.plugin(uniqueValidator, { message: 'Error, expected {PATH} to be unique.' })
 const User = mongoose.model('User', userSchema)
 
 module.exports = User
