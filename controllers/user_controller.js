@@ -43,7 +43,6 @@ var signUp = (req, res) => {
 
 let editUser = (req, res) => {
   User.findOne({email: req.currentUser.email}, (err, user) => {
-    console.log(user)
     if (err) console.log(err)
     user.name = req.body.name
     user.email = req.body.email

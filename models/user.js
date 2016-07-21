@@ -15,18 +15,28 @@ const userSchema = new mongoose.Schema({
 userSchema.pre('save', function (done) {
   const user = this
 
-  if (!user.isModified('password')) return done()
-
-  bcrypt.genSalt(8, (err, salt) => {
-    if (err) return done(err)
-
-    bcrypt.hash(user.password, salt, (err, hash) => {
+  if (user.isModified('password')) {
+    bcrypt.genSalt(8, (err, salt) => {
       if (err) return done(err)
-      user.password = hash
-      done()
+
+      bcrypt.hash(user.password, salt, (err, hash) => {
+        if (err) return done(err)
+        user.password = hash
+        return done()
+      })
     })
-  })
-  user.auth_token = uuid.v4()
+  } else {
+    bcrypt.genSalt(8, (err, salt) => {
+      if (err) return done(err)
+
+      bcrypt.hash(user.password, salt, (err, hash) => {
+        if (err) return done(err)
+        user.password = hash
+        done()
+      })
+    })
+    user.auth_token = uuid.v4()
+  }
 })
 
 userSchema.methods.authenticate = function (password, callback) {
