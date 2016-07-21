@@ -28,6 +28,7 @@ app.get('/', (req, res) => {
 // User routes
 app.post('/signup', userController.signUp)
 app.post('/signin', userController.signIn)
+app.put('/profile', userController.userLoggedIn, userController.editUser)
 
 // routes for city
 app.get('/city', cityController.getCity)

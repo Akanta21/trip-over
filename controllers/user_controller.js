@@ -41,9 +41,25 @@ var signUp = (req, res) => {
   })
 }
 
+let editUser = (req, res) => {
+  User.findOne({email: req.currentUser.email}, (err, user) => {
+    console.log(user)
+    if (err) console.log(err)
+    user.name = req.body.name
+    user.email = req.body.email
+    user.password = req.body.password
+
+    user.save((err) => {
+      if (err) console.log(err)
+      else res.status(201).json({message: 'user updated!'})
+    })
+  })
+}
+
 module.exports = {
   userLoggedIn: userLoggedIn,
   signIn: signIn,
   signUp: signUp,
-  isAdmin: isAdmin
+  isAdmin: isAdmin,
+  editUser: editUser
 }

@@ -193,15 +193,3 @@ describe('DELETE /trips/:id', () => {
     })
   })
 })
-  // describe('DELETE /trips/:id', () => {
-  //   it('should delete a trip from database', (done) => {
-  //     api.delete('/trips/1')
-  //       .set('Accept', 'application/json')
-  //       .set('User-Email', currentUser.email)
-  //       .set('Auth-Token', currentUser.auth_token)
-  //       .end((err,response) => {
-  //        expect(response.body.message).to.eql('deleted')
-  //        done()
-  //       })
-  //   })
-  // })
