@@ -5,7 +5,7 @@ const Trip = require('./trip')
 const uniqueValidator = require('mongoose-unique-validator')
 
 const userSchema = new mongoose.Schema({
-  name: {type: String},
+  name: {type: String, required: true},
   email: {type: String, required: true, unique: true, uniqueCaseInsensitive: true, match: /\S+@\S+\.\S+/},
   password: {type: String, minlength: 6},
   myTrips: [Trip.schema],

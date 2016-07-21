@@ -48,7 +48,7 @@ let editUser = (req, res) => {
     user.password = req.body.password
 
     user.save((err) => {
-      if (err) console.log(err)
+      if (err) return res.status(401).json({error: err})
       else res.status(201).json({message: 'user updated!'})
     })
   })
