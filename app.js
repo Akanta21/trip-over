@@ -6,10 +6,12 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const userController = require('./controllers/user_controller')
 const cityController = require('./controllers/city_controller')
+const tripController = require('./controllers/trip_controller')
 
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, User-Email, Auth-Token')
+  res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, DELETE, PUT')
   next()
 })
 
@@ -40,8 +42,7 @@ app.listen(port, () => {
   console.log(`listening on port ${port}`)
 })
 
-const tripController = require('./controllers/trip_controller')
-
+// routes for trips
 app.get('/trips', userController.userLoggedIn, tripController.getTrip)
 app.get('/trips/:id', userController.userLoggedIn, tripController.showTrip)
 app.post('/trips', userController.userLoggedIn, tripController.createTrip)
