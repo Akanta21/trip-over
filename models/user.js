@@ -15,6 +15,8 @@ const userSchema = new mongoose.Schema({
 userSchema.pre('save', function (done) {
   const user = this
 
+  if (!user.auth_token) user.auth_token = uuid.v4()
+
   if (user.isModified('password')) {
     bcrypt.genSalt(8, (err, salt) => {
       if (err) return done(err)
@@ -35,7 +37,6 @@ userSchema.pre('save', function (done) {
         done()
       })
     })
-    user.auth_token = uuid.v4()
   }
 })
 
