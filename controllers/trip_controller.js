@@ -18,7 +18,7 @@ var createTrip = function (req, res) {
 
   req.currentUser.myTrips.push(userTrip)
   req.currentUser.save(function (error, user) {
-    if (error)res.status(422).json({message: 'Could not create trip.'})
+    if (error)res.status(422).json({message: 'Could not create trip.', 'error': error})
     else res.status(201).json(user)
   })
 }
